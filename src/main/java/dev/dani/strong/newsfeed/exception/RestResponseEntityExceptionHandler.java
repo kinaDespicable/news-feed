@@ -2,6 +2,7 @@ package dev.dani.strong.newsfeed.exception;
 
 import dev.dani.strong.newsfeed.exception.exceptions.ResourceAlreadyExistException;
 import dev.dani.strong.newsfeed.exception.exceptions.ResourceNotFoundException;
+import dev.dani.strong.newsfeed.exception.exceptions.RoleFormatException;
 import dev.dani.strong.newsfeed.model.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.Instant;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -27,6 +27,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<ErrorResponse> resourceAlreadyExistExceptionHandler(ResourceAlreadyExistException exception) {
         var responseBody = constructResponse(exception, CONFLICT);
         return ResponseEntity.status(CONFLICT).body(responseBody);
+    }
+
+    @ExceptionHandler(RoleFormatException.class)
+    public ResponseEntity<ErrorResponse> roleFormatException(RoleFormatException exception) {
+        var responseBody = constructResponse(exception, BAD_REQUEST);
+        return ResponseEntity.status(BAD_REQUEST).body(responseBody);
     }
 
     private ErrorResponse constructResponse(RuntimeException exception, HttpStatus status) {
