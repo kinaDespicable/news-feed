@@ -4,13 +4,20 @@ import dev.dani.strong.newsfeed.exception.exceptions.ResourceAlreadyExistExcepti
 import dev.dani.strong.newsfeed.exception.exceptions.ResourceNotFoundException;
 import dev.dani.strong.newsfeed.exception.exceptions.RoleFormatException;
 import dev.dani.strong.newsfeed.model.dto.response.ErrorResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -34,6 +41,25 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         var responseBody = constructResponse(exception, BAD_REQUEST);
         return ResponseEntity.status(BAD_REQUEST).body(responseBody);
     }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(@NonNull MethodArgumentNotValidException ex,
+                                                                  @NonNull HttpHeaders headers,
+                                                                  @NonNull HttpStatusCode status,
+                                                                  @NonNull WebRequest request) {
+        Map<String, Object> responseBody = new LinkedHashMap<>();
+        responseBody.put("status", BAD_REQUEST);
+        responseBody.put("status_code", BAD_REQUEST.value());
+        responseBody.put("timestamp", Instant.now());
+
+        Map<String, Object> validationErrors = new LinkedHashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(fieldError -> validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage()));
+
+        responseBody.put("validation_errors", validationErrors);
+
+        return ResponseEntity.status(BAD_REQUEST).body(responseBody);
+    }
+
 
     private ErrorResponse constructResponse(RuntimeException exception, HttpStatus status) {
         return ErrorResponse.builder()
