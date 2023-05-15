@@ -1,6 +1,7 @@
 package dev.dani.strong.newsfeed.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -20,6 +21,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "site_user")
+@JsonPropertyOrder({"user_id, first_name, last_name, username, registered_at, role"})
 public class User implements Serializable {
 
     @Serial
@@ -47,16 +49,15 @@ public class User implements Serializable {
     @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @JsonProperty("registered_at")
     @Column(name = "registered_at")
     private LocalDate registeredAt;
 
     @ManyToOne
-    @JsonProperty("role")
     @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToMany(mappedBy = "author")
+    @JsonProperty(value = "written_news", access = JsonProperty.Access.WRITE_ONLY)
     private Set<News> writtenNews = new LinkedHashSet<>();
 
     @Override
