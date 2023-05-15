@@ -1,5 +1,6 @@
 package dev.dani.strong.newsfeed.exception;
 
+import dev.dani.strong.newsfeed.exception.exceptions.PasswordMismatchException;
 import dev.dani.strong.newsfeed.exception.exceptions.ResourceAlreadyExistException;
 import dev.dani.strong.newsfeed.exception.exceptions.ResourceNotFoundException;
 import dev.dani.strong.newsfeed.exception.exceptions.RoleFormatException;
@@ -38,6 +39,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(RoleFormatException.class)
     public ResponseEntity<ErrorResponse> roleFormatException(RoleFormatException exception) {
+        var responseBody = constructResponse(exception, BAD_REQUEST);
+        return ResponseEntity.status(BAD_REQUEST).body(responseBody);
+    }
+
+    @ExceptionHandler(PasswordMismatchException.class)
+    public ResponseEntity<ErrorResponse> passwordMismatchException(PasswordMismatchException exception) {
         var responseBody = constructResponse(exception, BAD_REQUEST);
         return ResponseEntity.status(BAD_REQUEST).body(responseBody);
     }
