@@ -42,13 +42,12 @@ public class AuthServiceImpl implements AuthService, Validatable<RegistrationReq
                 .build();
 
         userRepository.save(entity);
-        var saved = userRepository.findByUsername(request.username());
 
         return CreatedResponse.builder()
                 .status(HttpStatus.CREATED)
                 .statusCode(HttpStatus.CREATED.value())
                 .timestamp(Instant.now())
-                .data(saved)
+                .data(entity)
                 .build();
     }
 
