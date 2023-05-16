@@ -1,9 +1,12 @@
 package dev.dani.strong.newsfeed.service.implementaion;
 
+import dev.dani.strong.newsfeed.config.jwt.JwtService;
 import dev.dani.strong.newsfeed.exception.exceptions.PasswordMismatchException;
 import dev.dani.strong.newsfeed.exception.exceptions.ResourceAlreadyExistException;
+import dev.dani.strong.newsfeed.model.dto.request.AuthenticationRequest;
 import dev.dani.strong.newsfeed.model.dto.request.RegistrationRequest;
 import dev.dani.strong.newsfeed.model.dto.request.Validatable;
+import dev.dani.strong.newsfeed.model.dto.response.AuthenticationResponse;
 import dev.dani.strong.newsfeed.model.dto.response.CreatedResponse;
 import dev.dani.strong.newsfeed.model.entity.User;
 import dev.dani.strong.newsfeed.repository.UserRepository;
@@ -11,6 +14,11 @@ import dev.dani.strong.newsfeed.service.AuthService;
 import dev.dani.strong.newsfeed.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +34,9 @@ public class AuthServiceImpl implements AuthService, Validatable<RegistrationReq
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public CreatedResponse register(RegistrationRequest request) {
@@ -50,6 +61,21 @@ public class AuthServiceImpl implements AuthService, Validatable<RegistrationReq
                 .data(entity)
                 .build();
     }
+
+    @Override
+    public AuthenticationResponse authenticate(AuthenticationRequest authRequest) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password())
+        );
+
+        UserDetails user = userDetailsService.loadUserByUsername(authRequest.username());
+        String token = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(token)
+                .build();
+    }
+
 
     @Override
     public void checkExistenceForCreation(RegistrationRequest request) throws ResourceAlreadyExistException {
