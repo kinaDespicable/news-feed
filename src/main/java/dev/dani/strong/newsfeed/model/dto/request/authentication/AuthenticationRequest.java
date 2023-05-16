@@ -1,4 +1,4 @@
-package dev.dani.strong.newsfeed.model.dto.request;
+package dev.dani.strong.newsfeed.model.dto.request.authentication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;

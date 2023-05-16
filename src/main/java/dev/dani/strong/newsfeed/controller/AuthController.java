@@ -1,7 +1,7 @@
 package dev.dani.strong.newsfeed.controller;
 
-import dev.dani.strong.newsfeed.model.dto.request.AuthenticationRequest;
-import dev.dani.strong.newsfeed.model.dto.request.RegistrationRequest;
+import dev.dani.strong.newsfeed.model.dto.request.authentication.AuthenticationRequest;
+import dev.dani.strong.newsfeed.model.dto.request.authentication.RegistrationRequest;
 import dev.dani.strong.newsfeed.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authRequest){
+    public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authRequest) {
         return new ResponseEntity<>(authService.authenticate(authRequest), HttpStatus.OK);
     }
 

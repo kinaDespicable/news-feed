@@ -1,7 +1,7 @@
 package dev.dani.strong.newsfeed.service;
 
-import dev.dani.strong.newsfeed.model.dto.request.AuthenticationRequest;
-import dev.dani.strong.newsfeed.model.dto.request.RegistrationRequest;
+import dev.dani.strong.newsfeed.model.dto.request.authentication.AuthenticationRequest;
+import dev.dani.strong.newsfeed.model.dto.request.authentication.RegistrationRequest;
 import dev.dani.strong.newsfeed.model.dto.response.AuthenticationResponse;
 import dev.dani.strong.newsfeed.model.dto.response.CreatedResponse;
 

@@ -1,10 +1,11 @@
-package dev.dani.strong.newsfeed.model.dto.request;
+package dev.dani.strong.newsfeed.model.dto.request.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import dev.dani.strong.newsfeed.model.dto.request.CreateRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record RegistrationRequest(
+public record CreateUserRequest(
 
         @JsonProperty("first_name")
         @NotBlank(message = "Validation failed: Field 'first_name' must not be blank")
@@ -29,7 +30,11 @@ public record RegistrationRequest(
         @JsonProperty("password_confirmation")
         @NotBlank(message = "Validation failed: Field 'password_confirmation' must not be blank")
         @Size(min = 8, max = 255, message = "Validation failed: Field 'password_confirmation' must be between 8 and 255 characters long")
-        String passwordConfirmation
+        String passwordConfirmation,
+
+        @JsonProperty("role")
+        @NotBlank(message = "Validation failed: Field 'role' must not be blank")
+        String role
 
 ) implements CreateRequest {
 }
