@@ -13,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -35,6 +35,9 @@ public class SecurityConfig {
                     auth.requestMatchers("/topic/**").hasRole("ADMIN");
                     auth.requestMatchers("/news-source/**").hasRole("ADMIN");
                     auth.requestMatchers(POST,"/news/**").hasAnyRole("ADMIN", "EDITOR");
+                    auth.requestMatchers(GET,"/news/**").hasAnyRole("ADMIN", "EDITOR", "USER");
+                    auth.requestMatchers(PUT,"/news/**").hasAnyRole("ADMIN", "EDITOR");
+                    auth.requestMatchers(DELETE,"/news/**").hasAnyRole("ADMIN", "EDITOR");
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
