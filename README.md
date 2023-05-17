@@ -35,9 +35,9 @@ Just in case if there is type in url.
 | ------ | ------ | ------ | ------ |
 | Creation | http://localhost:8080/api/v1/news/new | POST | ADMIN, EDITOR |
 | Getting By Id | http://localhost:8080/api/v1/news/{id} | GET | ALL |
-| Getting All | http://localhost:8080/api/v1/news/all  | GET | ALL |
-| Getting By Source Id | http://localhost:8080/api/v1/news/by-source-id/{id} | GET | ALL |
-| Getting By Topic Id | http://localhost:8080/api/v1/news//by-topic-id/{id} | GET | ALL |
+| Getting All with Pagination| http://localhost:8080/api/v1/news/all  | GET | ALL |
+| Getting By Source Id with Pagination| http://localhost:8080/api/v1/news/by-source-id/{id} | GET | ALL |
+| Getting By Topic Id with Pagination| http://localhost:8080/api/v1/news//by-topic-id/{id} | GET | ALL |
 | Update By Id | http://localhost:8080/api/v1/news/{id} | PUT | ADMIN, EDITOR |
 | Delete By Id | http://localhost:8080/api/v1/news/{id} | DELETE | ADMIN, EDITOR |
 
