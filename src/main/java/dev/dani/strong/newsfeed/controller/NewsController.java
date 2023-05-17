@@ -34,7 +34,7 @@ public class NewsController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getByAll(@RequestParam(name = "page", required = false) Optional<Integer> page,
+    public ResponseEntity<?> getAll(@RequestParam(name = "page", required = false) Optional<Integer> page,
                                       @RequestParam(name = "size", required = false) Optional<Integer> size,
                                       @RequestParam(name = "sort", required = false) Optional<String> sort) {
         return new ResponseEntity<>(newsService.fetchAll(page, size, sort), HttpStatus.OK);
