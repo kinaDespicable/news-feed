@@ -27,7 +27,7 @@ public class NewsSourceController {
     }
 
     @GetMapping("/source/{sourceName}")
-    public ResponseEntity<?> getById(@PathVariable String sourceName) {
+    public ResponseEntity<?> getBySourceName(@PathVariable String sourceName) {
         return new ResponseEntity<>(newsSourceService.fetchBySourceName(sourceName), HttpStatus.OK);
     }
 
