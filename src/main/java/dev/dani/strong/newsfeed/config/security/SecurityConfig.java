@@ -34,10 +34,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/user/**").hasRole("ADMIN");
                     auth.requestMatchers("/topic/**").hasRole("ADMIN");
                     auth.requestMatchers("/news-source/**").hasRole("ADMIN");
-                    auth.requestMatchers(POST,"/news/**").hasAnyRole("ADMIN", "EDITOR");
                     auth.requestMatchers(GET,"/news/**").hasAnyRole("ADMIN", "EDITOR", "USER");
-                    auth.requestMatchers(PUT,"/news/**").hasAnyRole("ADMIN", "EDITOR");
-                    auth.requestMatchers(DELETE,"/news/**").hasAnyRole("ADMIN", "EDITOR");
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

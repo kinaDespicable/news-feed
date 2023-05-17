@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class NewsController {
     private final NewsService newsService;
 
     @PostMapping("/new")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     public ResponseEntity<?> create(@RequestBody @Valid CreateNewsRequest createRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new ResponseEntity<>(newsService.create(createRequest, authentication), HttpStatus.CREATED);
@@ -55,12 +57,14 @@ public class NewsController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     public ResponseEntity<?> updateById(@PathVariable("id") Long id,
                                         @RequestBody @Valid UpdateNewsRequest updateRequest){
         return new ResponseEntity<>(newsService.updateById(id, updateRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EDITOR')")
     public ResponseEntity<?> deleteById(@PathVariable("id") Long id){
         return new ResponseEntity<>(newsService.deleteById(id), HttpStatus.OK);
     }
