@@ -15,6 +15,8 @@ public interface TopicService {
 
     Topic fetchById(Long id);
 
+    Topic fetchByTopicName(String topicName);
+
     Topic updateById(Long id, UpdateTopicRequest updateRequest);
 
     DeletedResponse deleteById(Long id);

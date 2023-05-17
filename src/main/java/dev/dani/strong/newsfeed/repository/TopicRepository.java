@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TopicRepository extends JpaRepository<Topic, Long> {
 
     boolean existsByTopicIgnoreCase(String topic);
+
+    Optional<Topic> findTopicByTopicEqualsIgnoreCase(String topicName);
 
     @NonNull
     @Query(value = "SELECT * FROM topic ORDER BY id", nativeQuery = true)

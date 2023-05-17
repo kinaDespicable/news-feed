@@ -57,6 +57,12 @@ public class TopicServiceImpl implements TopicService, Validatable<CreateTopicRe
     }
 
     @Override
+    public Topic fetchByTopicName(String topicName){
+        return topicRepository.findTopicByTopicEqualsIgnoreCase(topicName)
+                .orElseThrow(() -> new ResourceNotFoundException("Topic: [" + topicName + "] not found."));
+    }
+
+    @Override
     public Topic updateById(Long id, UpdateTopicRequest updateRequest) {
 
         var existingTopic = fetchById(id);

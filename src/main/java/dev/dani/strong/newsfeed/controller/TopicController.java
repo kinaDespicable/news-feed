@@ -31,6 +31,11 @@ public class TopicController {
         return new ResponseEntity<>(topicService.fetchById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/topic/{topic}")
+    public ResponseEntity<?> getByTopic(@PathVariable String topic){
+        return new ResponseEntity<>(topicService.fetchByTopicName(topic), HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id,
                                         @RequestBody @Valid UpdateTopicRequest updateTopicRequest) {
