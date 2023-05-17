@@ -15,6 +15,7 @@
 - `Lombok`
 - `io.jsonwebtoken`
 
+##### Postgres database was used. In `application.properties` file has configurations for connecting to database. Also in the `src.main.resources.db` directory there are some SQL scirpts that might come in handy when mock data is needed.
 
 ##### If you are using postman first of all get token from `http://localhost:8080/api/v1/auth/authentication` url by specifying credentials in `Body` tab. Then before hitting any endpoint in `Authorization` tab choose type `Bearer Token` and insert retrieved token into input field. If you are not using Postman, use it :)
 
